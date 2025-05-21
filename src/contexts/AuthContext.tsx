@@ -1,100 +1,60 @@
-import React, { createContext, useState, useEffect, useContext } from "react";
-import { Session, User } from "@supabase/supabase-js";
-import { supabase } from "@/integrations/supabase/client";
+import React, { useState } from "react";
+import { useAuth } from "@/context/AuthContext";  // Ajuste o caminho conforme o seu projeto
 
-interface AuthContextType {
-  session: Session | null;
-  user: User | null;
-  loading: boolean;
-  signIn: (email: string, password: string) => Promise<{
-    error: Error | null;
-    data: Session | null;
-  }>;
-  signUp: (email: string, password: string, metadata?: Record<string, any>) => Promise<{
-    error: Error | null;
-    data: any;
-  }>;
-  signOut: () => Promise<void>;
-}
+const LoginForm: React.FC = () => {
+  const { entrar } = useAuth();  // pega a função de login
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [erro, setErro] = useState<string | null>(null);
+  const [carregando, setCarregando] = useState(false);
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setCarregando(true);
+    setErro(null);
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [session, setSession] = useState<Session | null>(null);
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+    const { error } = await entrar(email, senha);
 
-  useEffect(() => {
-    // Set up auth state listener FIRST
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
-        setLoading(false);
-      }
-    );
-
-    // THEN check for existing session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
-  const signIn = async (email: string, password: string) => {
-    try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-      
-      return { data: data.session, error };
-    } catch (error) {
-      return { data: null, error: error as Error };
+    if (error) {
+      setErro("Email ou senha incorretos.");
     }
-  };
-  
-  const signUp = async (email: string, password: string, metadata?: Record<string, any>) => {
-    try {
-      // Using autoConfirm: true to disable email confirmation
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: metadata,
-          // The emailRedirect property is not valid, use autoConfirm instead
-        }
-      });
-      
-      return { data, error };
-    } catch (error) {
-      return { data: null, error: error as Error };
-    }
+
+    setCarregando(false);
   };
 
-  const signOut = async () => {
-    await supabase.auth.signOut();
-  };
+  return (
+    <form onSubmit={handleLogin} className="max-w-sm mx-auto p-4 bg-white rounded shadow">
+      <h2 className="text-xl font-bold mb-4">Login</h2>
 
-  const value = {
-    session,
-    user,
-    loading,
-    signIn,
-    signUp,
-    signOut,
-  };
+      {erro && <div className="text-red-500 mb-2">{erro}</div>}
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+      <input
+        type="email"
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        className="w-full p-2 mb-2 border rounded"
+        required
+      />
+
+      <input
+        type="password"
+        placeholder="Senha"
+        value={senha}
+        onChange={(e) => setSenha(e.target.value)}
+        className="w-full p-2 mb-4 border rounded"
+        required
+      />
+
+      <button
+        type="submit"
+        disabled={carregando}
+        className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+      >
+        {carregando ? "Entrando..." : "Entrar"}
+      </button>
+    </form>
+  );
 };
 
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-  return context;
-};
+export default LoginForm;
