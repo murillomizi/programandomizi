@@ -44,7 +44,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onSendMessage }) => {
           variants={fadeIn} 
           custom={2}
         >
-          Hyper-personalized cold outreach at scale. Get more replies, book more meetings.
+          Hyper-personalized outreach at scale. Get more replies, book more.
         </motion.p>
         
         <motion.div variants={fadeIn} custom={3} className="max-w-xl mx-auto">
