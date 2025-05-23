@@ -11,7 +11,7 @@ import Onboarding from "./pages/Onboarding";
 import NotFound from "./pages/NotFound";
 import SimpleHome from "./pages/SimpleHome";
 import React from "react";
-import { AuthProvider, useAuth } from "./contexts/AuthContext";
+import { AuthProvider, useAuth } from "./context/AuthContext";
 
 // Create the client outside of the component
 const queryClient = new QueryClient();

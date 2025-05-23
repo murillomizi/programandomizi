@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/sonner";
 import Logo from "@/components/ui/logo";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/context/AuthContext";
 
 const Dashboard = () => {
   const navigate = useNavigate();

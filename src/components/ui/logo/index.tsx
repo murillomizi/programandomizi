@@ -3,7 +3,7 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 import { DropdownMenu, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/context/AuthContext";
 import LogoIcon from "./LogoIcon";
 import LogoDropdownContent from "./LogoDropdownContent";
 

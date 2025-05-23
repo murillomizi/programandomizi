@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { LogOut, Database, UserRound } from "lucide-react";
 import { User } from "@supabase/supabase-js";
 import { DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/context/AuthContext";
 import { toast } from "@/components/ui/use-toast";
 
 interface UserDropdownContentProps {

@@ -3,7 +3,7 @@ import React from "react";
 import { Edit, Copy, LogOut } from "lucide-react";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/context/AuthContext";
 import { toast } from "@/components/ui/sonner";
 
 interface ProjectActionsProps {

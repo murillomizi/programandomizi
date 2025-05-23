@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import LogoIcon from "@/components/ui/logo/LogoIcon";
 import CSVFileUpload from "@/components/survey/CSVFileUpload";
 import { toast } from "@/components/ui/use-toast";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/context/AuthContext";
 
 type FormData = {
   industry: string;

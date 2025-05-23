@@ -18,7 +18,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/context/AuthContext";
 import { LoginDialog } from "@/components/ui/login-dialog";
 import ChatInput from "@/components/survey/ChatInput";
 
